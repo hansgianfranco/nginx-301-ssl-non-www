@@ -1,0 +1,23 @@
+server {
+listen 80;
+server_name www.example.com example.com;
+
+#Redireccion 301
+return 301 https://example.com$request_uri;
+}
+
+server {
+root /var/www/html/example/public;
+index index.php index.html;
+server_name example.com;
+
+#Configuracion SSL
+listen 443 ssl;
+ssl_certificate /etc/nginx/ssl/example.crt;
+ssl_certificate_key /etc/nginx/ssl/example.key;
+
+location / {
+try_files $uri $uri/ /index.php?q=$uri&$args;
+}
+
+}
